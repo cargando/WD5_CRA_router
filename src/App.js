@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import logo from './logo.svg';
 import { loadCatalog } from './store/action_creatores';
+import Spinner from './components/spinner'
 import './App.css';
 
 class App extends React.Component {
@@ -17,6 +18,12 @@ class App extends React.Component {
 				  <header className="App-header">
 					  <img src={logo} className="App-logo" alt="logo" />
 					  <p>
+						  <strong>Catalog:</strong>
+						  {
+							  this.props.catalogLoading && <Spinner />
+						  }
+
+							<br />
 						  Edit <code>src/App.js</code> and save to reload.
 					  </p>
 					  <a
@@ -38,13 +45,14 @@ class App extends React.Component {
 
 const mapStateToProps = (store) => {
 	return {
-		catalog: store.app.catalog,
+		catalog: store.app.catalog, // имя ключа catalog - в итоге попадет в качестве пропса в наш компонент App
+		catalogLoading: store.app.isLoading.catalog || false, // имя ключа catalogLoading - в итоге попадет в качестве пропса в наш компонент App
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 		return {
-			loadCatalog: () => dispatch(loadCatalog()),
+			loadCatalog: () => dispatch(loadCatalog()), // имя ключа loadCatalog - в итоге попадет в качестве пропса в наш компонент App
 		}
 };
 
