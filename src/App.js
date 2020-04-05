@@ -11,6 +11,19 @@ class App extends React.Component {
 		this.props.loadCatalog();
 	}
 
+	renderCatalog = () => {
+		console.log(this.props.catalog);
+
+		const text = this.props.catalog
+			&& this.props.catalog.data
+			&& this.props.catalog.data.length
+			&& this.props.catalog.data[0].title;
+
+		return this.props.catalogLoading ? <Spinner /> : (
+			`первый элемент каталога: ${ text }`
+		);
+	};
+
 	render() {
 	  return (
 		  <>
@@ -20,7 +33,7 @@ class App extends React.Component {
 					  <p>
 						  <strong>Catalog:</strong>
 						  {
-							  this.props.catalogLoading && <Spinner />
+							  this.renderCatalog()
 						  }
 
 							<br />
