@@ -16,7 +16,11 @@ function rootReducer(store = initialStore, action) {
 				...store,
 				catalog: action.payload,
 			};
-
+		case Actions.UPDATE_LOADING: // обновить статус (флаг) загрузки для одного из ключей
+			return {
+				...store,
+				isLoading: { ...store.isLoading, ...action.payload }
+			};
 	}
 
 	return store;
