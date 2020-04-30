@@ -1,19 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Spinner from "../components/spinner";
 
 function About(props) {
 
+	const catalog = useSelector(store => store.app.catalog );
+	const catalogLoading = useSelector(store => (store.app.isLoading.catalog || false) );
+
+
 	function renderItemData() {
-		if (props.catalogLoading) {
+		if (catalogLoading) {
 			return (<Spinner />);
 		}
 
-		if (props.catalog
-			&& props.catalog.data
-			&& props.catalog.data.length) {
+		if (catalog
+			&& catalog.data
+			&& catalog.data.length) {
 
-			const { data = [] } = props.catalog;
+			const { data = [] } = catalog;
 			let item = {};
 
 			for (let i = 0; i < data.length; i++) {
@@ -49,15 +53,5 @@ function About(props) {
 	);
 }
 
-const mapStateToProps = (store) => {
-	return {
-		catalog: store.app.catalog, // имя ключа catalog - в итоге попадет в качестве пропса в наш компонент App
-		catalogLoading: store.app.isLoading.catalog || false, // имя ключа catalogLoading - в итоге попадет в качестве пропса в наш компонент App
-	}
-};
 
-
-
-const connected = connect(mapStateToProps);
-
-export default connected(About);
+export default About;

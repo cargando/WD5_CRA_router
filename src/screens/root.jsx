@@ -1,19 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Spinner from "../components/spinner";
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux';
 import * as URL from '../router/url'
 
 
-class Root extends React.Component {
+const Root = (props) => {
+	const catalog = useSelector(store => store.app.catalog );
+	const catalogLoading = useSelector(store => (store.app.isLoading.catalog || false) );
 
+	const renderCatalog = () => {
+		console.log(catalog);
 
-	renderCatalog = () => {
-		console.log(this.props.catalog);
+		const data = catalog && catalog.data
 
-		const data = this.props.catalog && this.props.catalog.data
-
-		if (this.props.catalogLoading) {
+		if (catalogLoading) {
 			return <Spinner />
 		}
 
@@ -30,13 +31,12 @@ class Root extends React.Component {
 
 	};
 
-	render () {
 		return (
 			<>
 				<p>
 					<strong>Catalog:</strong><br />
 					{
-						this.renderCatalog()
+						renderCatalog()
 					}
 
 					<br />
@@ -51,19 +51,7 @@ class Root extends React.Component {
 						Learn React
 			</a>
 			</>
-		)
-	}
-}
-
-const mapStateToProps = (store) => {
-	return {
-		catalog: store.app.catalog, // имя ключа catalog - в итоге попадет в качестве пропса в наш компонент App
-		catalogLoading: store.app.isLoading.catalog || false, // имя ключа catalogLoading - в итоге попадет в качестве пропса в наш компонент App
-	}
+		);
 };
 
-
-
-const connected = connect(mapStateToProps);
-
-export default connected(Root);
+export default Root;
